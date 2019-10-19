@@ -49,3 +49,21 @@ src/updator.cpp
 add_executable(main
 ./main.cpp)
 target_link_libraries(main ${PROJECT_NAME})
+
+find_package(OpenCV 3.0 QUIET)
+if(NOT OpenCV_FOUND)
+   find_package(OpenCV 2.4.3 QUIET)
+   if(NOT OpenCV_FOUND)
+      message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
+   else()
+      add_executable(detectline
+      ./detectLine.cpp)
+      target_link_libraries(detectline ${OpenCV_LIBS})
+   endif()
+else()
+   add_executable(detectline
+   ./detectLine.cpp)
+   target_link_libraries(detectline ${OpenCV_LIBS})
+endif()
+
+

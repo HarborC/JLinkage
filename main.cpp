@@ -19,6 +19,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <sstream>
 
 #include "updator.h"
 #include "VPCluster.h"
@@ -34,8 +35,9 @@ inline void Read_Line(std::istream& in)
 		if(str.length()==0) continue;
 
 		double x0,y0,x1,y1;
-		sscanf(str.c_str(), 
-			"%lf%*[^0-9-+.eE]%lf%*[^0-9-+.eE]%lf%*[^0-9-+.eE]%lf", &x0,&y0,&x1,&y1);
+		std::stringstream ss;
+		ss<<str;
+		ss>>x0; ss>>y0; ss>>x1; ss>>y1;
 		double dx=x0-x1,dy=y0-y1;
 		if( dx*dx+dy*dy<400 )
 			continue;
@@ -60,6 +62,7 @@ int main(int argc, const char* argv[])
 
 	std::ifstream ifile(argv[1]);
 	Read_Line(ifile);
+	ifile.close();
 
 	std::vector<unsigned int> Lables;
 	std::vector<unsigned int> LableCount;
